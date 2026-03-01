@@ -9,6 +9,11 @@
     "tabGroups",
     "storage"
   ],
+  "action": {
+    "default_title": "Tab Domain Grouper",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
   "background": {
     "service_worker": "service-worker.js"
   }

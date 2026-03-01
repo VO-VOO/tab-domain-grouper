@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tab Domain Grouper Options</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f8fafc;
+        --text: #111827;
+        --muted: #4b5563;
+        --surface: #ffffff;
+        --border: #d1d5db;
+        --primary: #1d4ed8;
+        --primary-hover: #1e40af;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: linear-gradient(140deg, #dbeafe 0%, #f8fafc 40%, #ecfeff 100%);
+        color: var(--text);
+        font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      main {
+        max-width: 760px;
+        margin: 24px auto;
+        padding: 0 16px;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px;
+        background: var(--surface);
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07);
+      }
+
+      h1 {
+        margin: 0 0 6px;
+        font-size: 24px;
+      }
+
+      .subtitle {
+        margin: 0 0 18px;
+        color: var(--muted);
+      }
+
+      .stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      .option {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        background: #f9fafb;
+      }
+
+      label {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+        align-items: start;
+        cursor: pointer;
+      }
+
+      .option-title {
+        font-weight: 600;
+      }
+
+      .option-note {
+        margin-top: 2px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .actions {
+        margin-top: 16px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      button {
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .primary {
+        color: #fff;
+        background: var(--primary);
+      }
+
+      .primary:hover {
+        background: var(--primary-hover);
+      }
+
+      .ghost {
+        border-color: var(--border);
+        color: var(--text);
+        background: #fff;
+      }
+
+      .ghost:hover {
+        background: #f3f4f6;
+      }
+
+      .status {
+        margin-top: 12px;
+        min-height: 22px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="card">
+        <h1>Tab Domain Grouper Options</h1>
+        <p class="subtitle">Choose how automatic grouping behaves.</p>
+
+        <form id="options-form">
+          <div class="stack">
+            <div class="option">
+              <label for="autoGroup">
+                <input id="autoGroup" name="autoGroup" type="checkbox" />
+                <span>
+                  <span class="option-title">Enable auto group</span>
+                  <span class="option-note">Automatically regroup tabs after updates in the same window.</span>
+                </span>
+              </label>
+            </div>
+
+            <div class="option">
+              <label for="includePinned">
+                <input id="includePinned" name="includePinned" type="checkbox" />
+                <span>
+                  <span class="option-title">Include pinned tabs</span>
+                  <span class="option-note">When enabled, pinned tabs can also be moved into domain groups.</span>
+                </span>
+              </label>
+            </div>
+
+            <div class="option">
+              <label for="ignoreGrouped">
+                <input id="ignoreGrouped" name="ignoreGrouped" type="checkbox" />
+                <span>
+                  <span class="option-title">Ignore already grouped tabs</span>
+                  <span class="option-note">Recommended to avoid changing tab groups you created manually.</span>
+                </span>
+              </label>
+            </div>
+
+            <div class="option">
+              <label for="collapseGroups">
+                <input id="collapseGroups" name="collapseGroups" type="checkbox" />
+                <span>
+                  <span class="option-title">Collapse groups after regroup</span>
+                  <span class="option-note">Keep groups collapsed to reduce visual clutter.</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="primary">Save changes</button>
+            <button type="button" id="reset-btn" class="ghost">Reset defaults</button>
+          </div>
+          <p id="status" class="status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+    <script src="options.js"></script>
+  </body>
+</html>

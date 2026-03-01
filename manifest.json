@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Domain Grouper",
+  "version": "0.1.0",
+  "description": "Group tabs by domain with stable group colors.",
+  "minimum_chrome_version": "89",
+  "permissions": [
+    "tabs",
+    "tabGroups",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "service-worker.js"
+  }
+}

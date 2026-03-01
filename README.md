@@ -6,12 +6,14 @@ A Manifest V3 Chrome extension that groups tabs by domain with stable colors.
 
 - Group tabs by `hostname` in the current window.
 - Create a tab group only when a domain has at least 2 tabs.
-- Keep the same domain on the same color via deterministic hash mapping.
-- Set group title to domain name.
+- Auto-attach a newly created tab to an existing same-domain group when available.
+- Prefer distinct colors across groups in the same window (reuse only after palette is exhausted).
+- Use a compact group marker with locale preference: mainland China sites prefer first Han character, overseas sites prefer domain initial.
 - Support manual actions from popup:
   - Group current window
   - Ungroup current window
   - Toggle auto group
+- Support keyboard trigger: press `Ctrl+G` (`Command+G` on macOS) to regroup the focused window immediately.
 - Persist behavior options via `chrome.storage.sync`.
 - Debounce tab events per window to avoid jitter during frequent updates.
 
@@ -41,6 +43,11 @@ A Manifest V3 Chrome extension that groups tabs by domain with stable colors.
    - **Ungroup current window**
    - **Toggle auto**
 4. Open options page to change behavior defaults.
+
+### Keyboard Shortcut
+
+- Press `Ctrl+G` (`Command+G` on macOS) to trigger an immediate regroup for the focused browser window.
+- If Chrome reports a shortcut conflict, set it manually at `chrome://extensions/shortcuts` for **Tab Domain Grouper**.
 
 ## Options
 
@@ -75,8 +82,8 @@ These tabs are skipped:
 
 - Grouping creates domain-based groups.
 - Single-tab domains are not grouped.
-- Same domain gets stable color.
-- Group title equals domain.
+- Groups in the same window use different colors whenever possible.
+- Group title follows locale preference (mainland: Han first, overseas: domain initial first).
 - Manual group and ungroup actions work from popup.
 - Option toggles persist and take effect.
 - Already grouped tabs are unchanged when `ignoreGrouped = true`.

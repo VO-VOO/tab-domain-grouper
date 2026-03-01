@@ -5,6 +5,7 @@ A Manifest V3 Chrome extension that groups tabs by domain with stable colors.
 ## Features
 
 - Group tabs by `hostname` in the current window.
+- Create a tab group only when a domain has at least 2 tabs.
 - Keep the same domain on the same color via deterministic hash mapping.
 - Set group title to domain name.
 - Support manual actions from popup:
@@ -73,6 +74,7 @@ These tabs are skipped:
 ## Manual Verification Checklist
 
 - Grouping creates domain-based groups.
+- Single-tab domains are not grouped.
 - Same domain gets stable color.
 - Group title equals domain.
 - Manual group and ungroup actions work from popup.

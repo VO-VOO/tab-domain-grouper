@@ -6,6 +6,8 @@ const DEFAULT_OPTIONS = {
 };
 
 const AUTO_GROUP_DEBOUNCE_MS = 700;
+const MIN_TABS_PER_GROUP = 2;
+const GROUP_RENDER_FIX_DELAY_MS = 60;
 const COLOR_PALETTE = [
   "blue",
   "red",
@@ -170,6 +172,12 @@ function getDomainFromUrl(url) {
   }
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 function shouldIncludeTab(tab, options) {
   if (!tab || typeof tab.id !== "number") {
     return false;
@@ -195,11 +203,17 @@ function shouldIncludeTab(tab, options) {
   return true;
 }
 
-async function forceRefreshGroupRendering(groupId, collapseGroups) {
+async function forceRefreshGroupRendering(groupId, groupProperties, collapseGroups) {
+  await sleep(GROUP_RENDER_FIX_DELAY_MS);
   await tabGroupsUpdate(groupId, { collapsed: true });
+  await sleep(GROUP_RENDER_FIX_DELAY_MS);
   await tabGroupsUpdate(groupId, { collapsed: false });
+  await sleep(GROUP_RENDER_FIX_DELAY_MS);
+
+  await tabGroupsUpdate(groupId, groupProperties);
 
   if (collapseGroups) {
+    await sleep(GROUP_RENDER_FIX_DELAY_MS);
     await tabGroupsUpdate(groupId, { collapsed: true });
   }
 }
@@ -248,20 +262,21 @@ async function regroupWindowByDomain(windowId, forceRun) {
     for (let i = 0; i < domainEntries.length; i += 1) {
       const domain = domainEntries[i][0];
       const tabIds = domainEntries[i][1];
-      if (!tabIds || tabIds.length === 0) {
+      if (!tabIds || tabIds.length < MIN_TABS_PER_GROUP) {
         continue;
       }
 
       try {
         const groupId = await tabsGroup({ tabIds });
         const color = getColorForDomain(domain);
-
-        await tabGroupsUpdate(groupId, {
+        const groupProperties = {
           title: domain,
           color
-        });
+        };
 
-        await forceRefreshGroupRendering(groupId, options.collapseGroups);
+        await tabGroupsUpdate(groupId, groupProperties);
+
+        await forceRefreshGroupRendering(groupId, groupProperties, options.collapseGroups);
         updatedGroups += 1;
       } catch (_error) {
         // Ignore individual group failures so other domains still process.
